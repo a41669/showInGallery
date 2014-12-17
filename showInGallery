@@ -1,0 +1,23 @@
+    /**
+     * @param fileName 图片的路径 /sdcard/****.jpg
+     * @return
+     */
+    public   boolean saveImgToGallery(String fileName) {
+        boolean sdCardExist = Environment.getExternalStorageState().equals(
+                android.os.Environment.MEDIA_MOUNTED); // 判断sd卡是否存在、
+        if (!sdCardExist)
+            return false;
+
+        try {
+            ContentValues values = new ContentValues();
+            values.put("datetaken", new Date().toString());
+            values.put("mime_type", "image/png");
+            values.put("_data", fileName);
+            ContentResolver cr = getContentResolver();
+            cr.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+     }
+    }
